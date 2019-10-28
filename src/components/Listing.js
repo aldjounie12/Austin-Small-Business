@@ -11,7 +11,7 @@ class Listing extends Component {
         const newVal = !this.state.checked
         if (newVal) {
             return this.setState({
-                heading: 'AUstin Small Business',
+                heading: 'Austin Small Business',
                 checked: newVal
             })
         }
