@@ -1,27 +1,40 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router'
 import cookie from 'cookie'
-import Home from './components/Login'
-import About from './components/Listing'
-import Austin from './components/State'
-import Login from './components/Login'
+import Listing from './containers/Listing'
+import Login from './containers/Login'
+import Business from './containers/Business';
+import About from './containers/About'
 
-// Write checkAuth function here
-// Check the cookies for a cookie called "loggedIn"
+const checkAuth = () => {
+    const cookies = cookie.parse(document.cookie)
+    return cookies['loggedIn']
+}
 
-
-// Write ProtectedRoute function here
+const ProtectedRoute = ({component: Component, ...rest}) => {
+    return (
+        <Route 
+        {...rest}
+        render={(props) => checkAuth() === true 
+        ? <Component {...props}/>
+        : <Redirect to={{pathname: '/login', state:{from: props.location} }} />}
+        />
+        )
+        }
 
 
 const Router = () => {
     return (
         <Switch>
-            <Route path="/login" component={Login} />
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/austin/:id" component={Austin} />
+            <Route exact path="/"  />
+            <Route path="/listing" component={Listing}/>
+            <Route path='/login' component={Login} />
+            <Route path= '/business/:id' component={Business}/>
+            <Route path= '/about' component={About}/>
         </Switch>
     );
 };
 
 export default Router;
+
+
